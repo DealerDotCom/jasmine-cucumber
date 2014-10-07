@@ -1,8 +1,8 @@
 {
   "name": "jasmine-cucumber",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "cucumer-like javascript api for jasmine",
-  "main": "",
+  "main": "src/jasmine-cucumber.js",
   "scripts": {
     "test": "karma start --single-run=true"
   },
