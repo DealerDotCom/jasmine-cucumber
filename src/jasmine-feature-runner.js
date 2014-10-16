@@ -107,7 +107,7 @@
                   return memo;
                 }, '');
 
-                var scenarioExecuter = function(){
+                var scenarioExecuter = function(done){
                   var scenarioContext = {
                         when : function(description){
                             var step = getStep({
@@ -127,12 +127,32 @@
                         },
                         then : function(){
                             this.when.apply(this, arguments);
+                        },
+                        async : function(){
+                            isAsync = true;
+                            return executeNextStep;
                         }
-                    };
+                    },
+                      currentStep = -1,
+                      isAsync = false,
+                      executeNextStep = function(){
+                          isAsync = false;
+                          if (currentStep < steps.length - 2){
+                              currentStep++;
+                              steps[currentStep].step(scenarioContext);
+                              if(!isAsync){
+                                  executeNextStep();
+                              }
+                          }
+                          else {
+                              done();
+                          }
+                      };
 
-                  steps.forEach(function(step){
-                    step.step(scenarioContext);
-                  });
+                    // start executing steps
+                    executeNextStep();
+
+
 
                   if (missingSteps.length > 0){
                         this.fail('Missing step definitions:\n\t' +
