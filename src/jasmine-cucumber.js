@@ -17,7 +17,7 @@
 			  var args = Array.prototype.splice.call(arguments, 2);
               this.steps.push({
                 description : arguments[1],
-                fullDescription : arguments[0] + '  ' + arguments[1] + ' ' + JSON.stringify(args),
+                fullDescription : arguments[0] + '  ' + arguments[1] + ' ' + (args && args.length > 0 ? JSON.stringify(args, null, 2) : ''),
                 arguments : args
               });
             };
