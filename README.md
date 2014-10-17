@@ -5,6 +5,7 @@ jasmine-cucumber
 
 [Getting Started with Protractor](https://github.com/DealerDotCom/protractor-jasmine-cucumber)
 
+
 # Motivation
 The motivation behind this project was to bring the power of cucumber to expressing complex permutations of tests where jasmine alone starts to fail. This isn't to say that you should no longer use jasmine syntax in favor of this syntax, instead you should leverage this when your jasmine tests start getting too complex and you find yourself copying and / or moving lots of code around. 
 
@@ -133,6 +134,22 @@ matches `I should get "3"` and does the assertion which is being wrapped in a ja
 	        this.when('I add "' + second + '"');
     	})
 ```
+
+Async is also supported with an api inspired by Grunt. 
+
+```javascript
+    	.when('I add "(.*)"', function(val){
+        	var done = this.async(),
+        	    scenarioContext = this;
+        	setTimeout(function(){
+        		scenarioContext.values.push(val * 1);
+	        	scenarioContext.total = scenarioContext.values[0] + scenarioContext.values[1];
+    	    	scenarioContext.values = [scenarioContext.total];
+        		done();
+        	});
+	    })
+```
+The next step won't be called until the done function is executed. In effect, done calls the next step. 
     	
 This step definition is especially cool as it allows us to abstract away other step definitions. This allows the more complex scenario to be more readable with one line instead of 2 (imagine 4 or 5 lines of setup for each scenario in a real world app). It then re-uses the existing steps by simply creating the strings that would match their regex. 
 
@@ -444,6 +461,19 @@ featureSteps("i18n:")
 
 Which has a clearer intent? Which is easier to jump into as a new user? *NOTE:* that I started doing this in traditional jasmine and switched to cucumber when I felt like the intent was getting lost and/or the comlexity warranted it (in this case it was mostly about intent). 
 
+# Release Notes
+## v 1.0.3
+* fixed bug where synchronous tests using async function would cause bad state
+* fixed bug where missing step wouldn't cause scenario to fail if previous step was async
+
+## v 1.0.2
+* fixed bug causing the last step to be skipped
+
+## v 1.0.0
+* Added support for Jasmine 2.0 syntax. Breaking change, use v.0.2.0 for Jasmine 1.3 syntax. This is primarily to add support for async. 
+
+## v 0.2.0
+Supports Jasmine 1.3
 # Roadmap
 * look closer at cucumber.js
 

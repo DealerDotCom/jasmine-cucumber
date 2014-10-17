@@ -100,7 +100,18 @@
                       }
                     };
                   })
-                );
+                )
+                // lastly we need to ensure there weren't any missing steps along the way
+                .concat([{
+                    description : '',
+                    step : function(){
+                        if (missingSteps.length > 0){
+                            throw new Error('Missing step definitions:\n\t' +
+                                missingSteps.map(stepWithLikelyMatch)
+                                .join('\n\t'));
+                        }
+                    }
+                }]);
 
                 var description = steps.reduce(function(memo, item){
                   memo += item.description ? '\n' + item.description : '';
@@ -130,17 +141,29 @@
                         },
                         async : function(){
                             isAsync = true;
-                            return executeNextStep;
+                            return function(){
+                                if (executingStep){
+                                    isAsync = false;
+                                }
+                                else{
+                                    executeNextStep();
+                                }
+                            };
                         }
                     },
                       currentStep = -1,
                       isAsync = false,
+                      executingStep = false,
                       executeNextStep = function(){
                           isAsync = false;
                           // if there is a next step
                           if (currentStep + 1 < steps.length){
                               currentStep++;
+
+                              executingStep = true;
                               steps[currentStep].step(scenarioContext);
+                              executingStep = false;
+
                               if(!isAsync){
                                   executeNextStep();
                               }
@@ -155,11 +178,7 @@
 
 
 
-                  if (missingSteps.length > 0){
-                        this.fail('Missing step definitions:\n\t' +
-                            missingSteps.map(stepWithLikelyMatch)
-                            .join('\n\t'));
-                    }
+                    
                 };
 
                 return function(){

@@ -7,6 +7,15 @@ featureSteps('Calculator:')
         this.when('I enter "' + first + '"');
         this.when('I add "' + second + '"');
     })
+    .given('I eventually add "(.*)" and "(.*)"', function(first, second){
+        var done = this.async(),
+            scenarioContext = this;;
+        setTimeout(function(){
+            scenarioContext.when('I enter "' + first + '"');
+            scenarioContext.when('I add "' + second + '"');
+            done();
+        });
+    })
     .when('I enter "(.*)"', function(val){
         this.values.push(val * 1);
     })

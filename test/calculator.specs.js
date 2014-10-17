@@ -7,3 +7,7 @@ feature('Calculator: add')
         .given('I added "1" and "2"')
         .when('I add "3"')
         .then('I should get "6"')
+    .scenario('should be able to add asynchronously')
+        .when('I eventually add "1" and "2"')
+        .then('I should get "3"')
+
