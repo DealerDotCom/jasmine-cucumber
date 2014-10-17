@@ -13,11 +13,12 @@
             options = options || {};
             this.description = scenarioDescription;
             this.steps = [];
-            this.addStep = function(){
+			this.addStep = function(){
+			  var args = Array.prototype.splice.call(arguments, 2);
               this.steps.push({
                 description : arguments[1],
-                fullDescription : arguments[0] + '  ' + arguments[1],
-                arguments : Array.prototype.splice.call(arguments, 2)
+                fullDescription : arguments[0] + '  ' + arguments[1] + ' ' + JSON.stringify(args),
+                arguments : args
               });
             };
 
