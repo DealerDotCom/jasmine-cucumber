@@ -137,7 +137,8 @@
                       isAsync = false,
                       executeNextStep = function(){
                           isAsync = false;
-                          if (currentStep < steps.length - 2){
+                          // if there is a next step
+                          if (currentStep + 1 < steps.length){
                               currentStep++;
                               steps[currentStep].step(scenarioContext);
                               if(!isAsync){
