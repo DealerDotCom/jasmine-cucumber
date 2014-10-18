@@ -181,8 +181,48 @@ So now we know we need a step definition for 'I get "6"', or do we… it also at
             
 It is using levenshteinDistance which is very rough, but often its just enough to remind you that you're off by one word or letter.
 
+## Want More… 
+Unlike traditional cucumber, you can pass plain javascript objects into your gherkin statements. 
+
+```javascript
+	.given('a person', { name : 'Lance', age : 3 })
+```
+
+Which is passed to your step definition
+
+```javascript
+	.given('a person', function(person){
+    	this.person = person;
+  	})
+```
+You can pass any object, even an array
+
+```javascript
+	.given('people', [
+      { name : 'Lance', age : 3 },
+      { name : 'Lana', age : 2 }
+    ])
+```
+
+In my experience this has been most useful when passing in many properties through regex gets overly verbose, eg: 
+
+```javascript
+	.given('a person named "Lance"')
+	.given('that person is "3" years old')
+	.given('that person has "2" siblings')
+```
+
+Repeat this for 4 or 5 scenarios and you will really appreciate 
+
+```javascript
+	.given('a person', { name : 'Lance', age : 3, siblings : 2 })
+	
+```
+
+Special thanks to gregorylimoratto for a pull request to improve the output of failed tests to include these arguments
+
 Gotchas
-==
+===
 
 Be careful not to use 'this' inside the inject function, as it will be a different context than your scenario. In this example, we are caching the scenario context at the top level, then using it to grab an $injector.
 
@@ -462,6 +502,10 @@ featureSteps("i18n:")
 Which has a clearer intent? Which is easier to jump into as a new user? *NOTE:* that I started doing this in traditional jasmine and switched to cucumber when I felt like the intent was getting lost and/or the comlexity warranted it (in this case it was mostly about intent). 
 
 # Release Notes
+## v 1.1.0
+* added support for arguments passed into gherkin expressions - like cucumber DataTables but better :)
+* thanks to gregorylimoratto for the pull request to improve the error handling and expose this hidden feature
+
 ## v 1.0.3
 * fixed bug where synchronous tests using async function would cause bad state
 * fixed bug where missing step wouldn't cause scenario to fail if previous step was async
