@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'src/karma-jasmine-step-parser.js',
       'src/jasmine-cucumber.js',
       'src/jasmine-feature-runner.js',
       'src/karma-jasmine-runner.js',
