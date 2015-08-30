@@ -5,6 +5,10 @@ jasmine-cucumber
 
 [Getting Started with Protractor](https://github.com/DealerDotCom/protractor-jasmine-cucumber)
 
+# Deprecated at Dealer.com
+Given minimal adoption of this package at Dealer.com we have decided to deprecate it. We are embracing cucumberjs and finding it to be good enough. 
+
+[Gregory Limoratto](https://github.com/gregorylimoratto) has been a primary contributor and will continue development on his [fork](https://github.com/gregorylimoratto/jasmine-cucumber). 
 
 # Motivation
 The motivation behind this project was to bring the power of cucumber to expressing complex permutations of tests where jasmine alone starts to fail. This isn't to say that you should no longer use jasmine syntax in favor of this syntax, instead you should leverage this when your jasmine tests start getting too complex and you find yourself copying and / or moving lots of code around. 
